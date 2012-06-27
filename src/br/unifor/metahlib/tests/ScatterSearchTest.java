@@ -17,8 +17,8 @@ public class ScatterSearchTest {
 			TSPProblem problem = new TSPProblem(file);
 			problem.setRandomSeed(3);
 
-			Heuristic scatter = new ScatterSearchTSP(problem, 20);
-			scatter.setMax_it(50);
+			Heuristic scatter = new ScatterSearchTSP(problem, 5);
+			scatter.setMax_it(2);
 
 			OptimizationResult r = scatter.run();
 
