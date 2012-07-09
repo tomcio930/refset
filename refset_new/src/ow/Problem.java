@@ -8,12 +8,14 @@ public class Problem implements ScatterSearch {
 	
 	//zwraca wartosc funkcji dla danych wejsciowych i wag
 	@Override
-	public Double objectiveFunction(ArrayList<Double> vector, ArrayList<Double> weights) {
+	public ArrayList<Double> objectiveFunction(ArrayList<Double> vector, ArrayList<Double> weights) {
 		Double result = 0.0;
 		for(int i=0; i<vector.size(); i++){
 			result += vector.get(i)*weights.get(i);
 		}
-		return result;
+		ArrayList<Double> alResult = new ArrayList<Double>();
+		alResult.add(result);
+		return alResult;
 	}
 	
 	//zwraca losowa wartosc z przedzialu
@@ -28,7 +30,7 @@ public class Problem implements ScatterSearch {
 	//zwraca losowy wektor 
 	@Override
 	public ArrayList<Double> randomVector(ArrayList<Double[]> bounds) {
-		ArrayList<Double> randomVector = new ArrayList<>();
+		ArrayList<Double> randomVector = new ArrayList<Double>();
 		Double min,max;
 		for(int i=0; i<bounds.size(); i++)
 		{
@@ -42,32 +44,48 @@ public class Problem implements ScatterSearch {
 	@Override
 	public ArrayList<Double> takeStep(ArrayList<Double[]> minMax,
 			ArrayList<Double> current, Double stepSize) {
-		ArrayList<Double> position = new ArrayList<>();
+		ArrayList<Double> position = new ArrayList<Double>();
 		Double min, max;
 		for(int i=0; i<current.size(); i++)
 		{
-			min = Math.max(minMax.get(i)[0], current.get(i)-stepSize);
-			max = Math.min(minMax.get(i)[1], current.get(i)+stepSize);
+			min = Math.max(minMax.get(i)[0], current.get(i) - stepSize);
+			max = Math.min(minMax.get(i)[1], current.get(i) + stepSize);
 			position.add(randInBounds(min, max));
 		}
 		return position;
 	}
 
 	@Override
-	public HashMap<String, Double> localSearch(HashMap<String, ArrayList<Double>> best,
-			ArrayList<Double[]> bounds, int maxNoImprov,
-			Double stepSize) {
+	public HashMap<String, ArrayList<Double>> localSearch(HashMap<String, ArrayList<Double>> best,
+			ArrayList<Double[]> bounds, ArrayList<Double> weights, int maxNoImprov, Double stepSize) {
 		int count = 0;
-		HashMap<String, ArrayList<Double>> candidate = new HashMap<>();
-		candidate.put("vector", takeStep(bounds, best.get("vector"), stepSize));
-		return null;
+		do{
+			HashMap<String, ArrayList<Double>> candidate = new HashMap<String, ArrayList<Double>>();
+			candidate.put("vector", takeStep(bounds, best.get("vector"), stepSize));
+			candidate.put("cost", objectiveFunction(candidate.get("vector"), weights));
+			
+			if(candidate.get("cost").get(0) < best.get("cost").get(0)){
+				count = 0;
+				best = candidate;
+			}else count++;
+
+		}while(count <= maxNoImprov);
+		
+		return best;
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Double>> constructInitialSet(
-			HashMap<Double, ArrayList<Double>> bounds, Integer setSize,
-			Integer maxNoImprov, Double stepSize) {
-		// TODO Auto-generated method stub
+	public ArrayList<HashMap<String, ArrayList<Double>>> constructInitialSet(
+			ArrayList<Double[]> bounds, ArrayList<Double> weights, Integer setSize, Integer maxNoImprov, Double stepSize) {
+		
+		do{
+			HashMap<String, ArrayList<Double>> cand = new HashMap<String, ArrayList<Double>>();
+			cand.put("vector", randomVector(bounds));
+			cand.put("cost", objectiveFunction(cand.get("vector"), weights));
+			cand = localSearch(cand, bounds, weights, maxNoImprov, stepSize);
+			
+		}while(false);
+		
 		return null;
 	}
 
