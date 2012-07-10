@@ -5,35 +5,34 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Problem implements ScatterSearch {
-	
-	//zwraca wartosc funkcji dla danych wejsciowych i wag
+
+	// zwraca wartosc funkcji dla danych wejsciowych i wag
 	@Override
 	public ArrayList<Double> objectiveFunction(ArrayList<Double> vector, ArrayList<Double> weights) {
 		Double result = 0.0;
-		for(int i=0; i<vector.size(); i++){
-			result += vector.get(i)*weights.get(i);
+		for (int i = 0; i < vector.size(); i++) {
+			result += vector.get(i) * weights.get(i);
 		}
 		ArrayList<Double> alResult = new ArrayList<Double>();
 		alResult.add(result);
 		return alResult;
 	}
-	
-	//zwraca losowa wartosc z przedzialu
+
+	// zwraca losowa wartosc z przedzialu
 	@Override
 	public Double randInBounds(Double min, Double max) {
 		Random rand = new Random();
 		Double range = max - min;
-		Double randomNum =  range * rand.nextDouble() + min;
+		Double randomNum = range * rand.nextDouble() + min;
 		return randomNum;
 	}
-	
-	//zwraca losowy wektor 
+
+	// zwraca losowy wektor
 	@Override
 	public ArrayList<Double> randomVector(ArrayList<Double[]> bounds) {
 		ArrayList<Double> randomVector = new ArrayList<Double>();
-		Double min,max;
-		for(int i=0; i<bounds.size(); i++)
-		{
+		Double min, max;
+		for (int i = 0; i < bounds.size(); i++) {
 			min = bounds.get(i)[0];
 			max = bounds.get(i)[1];
 			randomVector.add(randInBounds(min, max));
@@ -42,12 +41,10 @@ public class Problem implements ScatterSearch {
 	}
 
 	@Override
-	public ArrayList<Double> takeStep(ArrayList<Double[]> minMax,
-			ArrayList<Double> current, Double stepSize) {
+	public ArrayList<Double> takeStep(ArrayList<Double[]> minMax, ArrayList<Double> current, Double stepSize) {
 		ArrayList<Double> position = new ArrayList<Double>();
 		Double min, max;
-		for(int i=0; i<current.size(); i++)
-		{
+		for (int i = 0; i < current.size(); i++) {
 			min = Math.max(minMax.get(i)[0], current.get(i) - stepSize);
 			max = Math.min(minMax.get(i)[1], current.get(i) + stepSize);
 			position.add(randInBounds(min, max));
@@ -59,33 +56,34 @@ public class Problem implements ScatterSearch {
 	public HashMap<String, ArrayList<Double>> localSearch(HashMap<String, ArrayList<Double>> best,
 			ArrayList<Double[]> bounds, ArrayList<Double> weights, int maxNoImprov, Double stepSize) {
 		int count = 0;
-		do{
+		do {
 			HashMap<String, ArrayList<Double>> candidate = new HashMap<String, ArrayList<Double>>();
 			candidate.put("vector", takeStep(bounds, best.get("vector"), stepSize));
 			candidate.put("cost", objectiveFunction(candidate.get("vector"), weights));
-			
-			if(candidate.get("cost").get(0) < best.get("cost").get(0)){
+
+			if (candidate.get("cost").get(0) < best.get("cost").get(0)) {
 				count = 0;
 				best = candidate;
-			}else count++;
+			} else
+				count++;
 
-		}while(count <= maxNoImprov);
-		
+		} while (count <= maxNoImprov);
+
 		return best;
 	}
 
 	@Override
-	public ArrayList<HashMap<String, ArrayList<Double>>> constructInitialSet(
-			ArrayList<Double[]> bounds, ArrayList<Double> weights, Integer setSize, Integer maxNoImprov, Double stepSize) {
-		
-		do{
+	public ArrayList<HashMap<String, ArrayList<Double>>> constructInitialSet(ArrayList<Double[]> bounds,
+			ArrayList<Double> weights, Integer setSize, Integer maxNoImprov, Double stepSize) {
+
+		do {
 			HashMap<String, ArrayList<Double>> cand = new HashMap<String, ArrayList<Double>>();
 			cand.put("vector", randomVector(bounds));
 			cand.put("cost", objectiveFunction(cand.get("vector"), weights));
 			cand = localSearch(cand, bounds, weights, maxNoImprov, stepSize);
-			
-		}while(false);
-		
+
+		} while (false);
+
 		return null;
 	}
 
@@ -96,19 +94,43 @@ public class Problem implements ScatterSearch {
 	}
 
 	@Override
-	public Double distance(ArrayList<Double> v,
-			HashMap<Double, ArrayList<Double>> set) {
+	public Double distance(ArrayList<Double> v, HashMap<Double, ArrayList<Double>> set) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Object> search(HashMap<Double, ArrayList<Double>> bounds,
-			Integer maxIter, Integer refSetSize, Integer diverseSetSize,
-			Integer maxNoImprov, Double stepSize, Integer noElite) {
+	public ArrayList<Object> search(HashMap<Double, ArrayList<Double>> bounds, Integer maxIter, Integer refSetSize,
+			Integer diverseSetSize, Integer maxNoImprov, Double stepSize, Integer noElite) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-}
 
-	
+	private ArrayList<HashMap<String, Double[]>> sort(ArrayList<HashMap<String, Double[]>> diverseSet) {
+		ArrayList<HashMap<String, Double[]>> diverseSetTmp = new ArrayList<HashMap<String, Double[]>>();
+		HashMap<String, Double[]> hashMapTmp = diverseSet.get(0);
+		int k = diverseSet.size();
+		for (int j = 0; j < k; j++) {
+			for (int i = 0; i < diverseSet.size(); i++) {
+				if (diverseSet.get(i).get("cost")[0] < hashMapTmp.get("cost")[0]) {
+					hashMapTmp = diverseSet.get(i);
+				}
+			}
+
+			diverseSetTmp.add(hashMapTmp);
+			diverseSet.remove(hashMapTmp);
+			if (diverseSet.size() > 0)
+				hashMapTmp = diverseSet.get(0);
+		}
+		for (int i = 0; i < diverseSet.size(); i++)
+			diverseSetTmp.add(diverseSet.get(i));
+		return diverseSetTmp;
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Double[]>> diversify(ArrayList<HashMap<String, Double[]>> diverseSet,
+			int numElite, int refSetSize) {
+		diverseSet = sort(diverseSet);
+		return diverseSet;
+	}
+}
