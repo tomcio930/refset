@@ -69,14 +69,12 @@ public class Refset {
 		return a0;
 	}
 
-	public boolean setA0(Set a0) {
+	public void setA0(Set a0) throws NoConsistency {
 		Set tmp = this.a0;
 		this.a0 = a0;
-		if (checkConsistency())
-			return true;
-		else {
+		if (!checkConsistency()) {
 			this.a0 = tmp;
-			return false;
+			throw new NoConsistency("Cannot change set: " + a0 + ". Sets are not consistent.");
 		}
 	}
 
@@ -84,14 +82,12 @@ public class Refset {
 		return a1;
 	}
 
-	public boolean setA1(Set a1) {
+	public void setA1(Set a1) throws NoConsistency {
 		Set tmp = this.a1;
 		this.a1 = a1;
-		if (checkConsistency())
-			return true;
-		else {
+		if (!checkConsistency()) {
 			this.a1 = tmp;
-			return false;
+			throw new NoConsistency("Cannot change set: " + a1 + ". Sets are not consistent.");
 		}
 	}
 
@@ -99,14 +95,12 @@ public class Refset {
 		return a2;
 	}
 
-	public boolean setA2(Set a2) {
+	public void setA2(Set a2) throws NoConsistency {
 		Set tmp = this.a2;
 		this.a2 = a2;
-		if (checkConsistency())
-			return true;
-		else {
+		if (!checkConsistency()) {
 			this.a2 = tmp;
-			return false;
+			throw new NoConsistency("Cannot change set: " + a2 + ". Sets are not consistent.");
 		}
 	}
 
@@ -114,14 +108,12 @@ public class Refset {
 		return a3;
 	}
 
-	public boolean setA3(Set a3) {
+	public void setA3(Set a3) throws NoConsistency {
 		Set tmp = this.a3;
 		this.a3 = a3;
-		if (checkConsistency())
-			return true;
-		else {
+		if (!checkConsistency()) {
 			this.a3 = tmp;
-			return false;
+			throw new NoConsistency("Cannot change set: " + a3 + ". Sets are not consistent.");
 		}
 	}
 
