@@ -11,12 +11,12 @@ public class Element {
 
 	public Element() {
 		super();
-		this.price = 0;
-		this.maintenance = 0;
-		this.doors = new Float(0);
-		this.persons = new Float(0);
-		this.luggage = new Float(0);
-		this.safety = new Float(0);
+		this.price = 0.0;
+		this.maintenance = 0.0;
+		this.doors = 0.0;
+		this.persons = 0.0;
+		this.luggage = 0.0;
+		this.safety = 0.0;
 	}
 
 	@Override
