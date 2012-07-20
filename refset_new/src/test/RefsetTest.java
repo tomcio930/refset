@@ -18,9 +18,15 @@ public class RefsetTest {
 		a0.addElement(e1);
 		a0.addElement(e2);
 		System.out.println(a0.getDistance(e3));
+
 		Refset rs = new Refset();
-		rs.getA0().addElement(e1);
+
+		rs.addElementToA0(e1);
+		rs.addElementToA0(e2);
+		rs.addElementToA1(e3);
+
 		System.out.println(rs.getA0().getCenter().getDoors());
+		System.out.println(rs.getA0().getDistance(e3));
 	}
 
 }

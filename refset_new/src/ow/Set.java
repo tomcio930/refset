@@ -32,6 +32,10 @@ public class Set {
 		return center;
 	}
 
+	public int getSize() {
+		return elements.size();
+	}
+
 	public double getDistance(Element el) {
 		double distance = 0.0;
 		double doors = Math.pow(center.getDoors() - el.getDoors(), 2);
