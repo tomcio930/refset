@@ -19,6 +19,14 @@ public class Element {
 		this.safety = new Float(0);
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "(price: " + String.valueOf(price) + " maintenance: " + String.valueOf(maintenance) + " doors: "
+				+ String.valueOf(doors) + " persons: " + String.valueOf(persons) + " luggage: "
+				+ String.valueOf(luggage) + " safety: " + String.valueOf(safety) + ")";
+	}
+
 	public Element(double price, double maintenance, double doors, double persons, double luggage, double safety) {
 		super();
 		this.price = price;

@@ -3,6 +3,7 @@ package test;
 import ow.Element;
 import ow.Refset;
 import ow.Set;
+import ow.exceptions.NoConsistency;
 
 public class RefsetTest {
 
@@ -21,9 +22,13 @@ public class RefsetTest {
 
 		Refset rs = new Refset();
 
-		rs.addElementToA0(e1);
-		rs.addElementToA0(e2);
-		rs.addElementToA1(e3);
+		try {
+			rs.addElementToA0(e1);
+			rs.addElementToA0(e2);
+			rs.addElementToA1(e3);
+		} catch (NoConsistency e) {
+			e.printStackTrace();
+		}
 
 		System.out.println(rs.getA0().getCenter().getDoors());
 		System.out.println(rs.getA0().getDistance(e3));
