@@ -1,6 +1,7 @@
 package ow;
 
 import ow.exceptions.NoConsistency;
+import ow.exceptions.NoInnerConsistency;
 
 public class Refset {
 	private Set a0;
@@ -34,7 +35,11 @@ public class Refset {
 	}
 
 	public void addElementToA0(Element el) throws NoConsistency {
-		a0.addElement(el);
+		try{
+			a0.addElement(el);
+		}catch(NoInnerConsistency e){
+			e.printStackTrace();
+		}
 		if (!checkConsistency()) {
 			a0.removeElement(el);
 			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
@@ -42,7 +47,11 @@ public class Refset {
 	}
 
 	public void addElementToA1(Element el) throws NoConsistency {
-		a1.addElement(el);
+		try{
+			a1.addElement(el);
+		}catch(NoInnerConsistency e){
+			e.printStackTrace();
+		}
 		if (!checkConsistency()) {
 			a1.removeElement(el);
 			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
@@ -50,7 +59,11 @@ public class Refset {
 	}
 
 	public void addElementToA2(Element el) throws NoConsistency {
-		a2.addElement(el);
+		try{
+			a2.addElement(el);
+		}catch(NoInnerConsistency e){
+			e.printStackTrace();
+		}
 		if (!checkConsistency()) {
 			a2.removeElement(el);
 			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
@@ -58,7 +71,11 @@ public class Refset {
 	}
 
 	public void addElementToA3(Element el) throws NoConsistency {
-		a3.addElement(el);
+		try{
+			a3.addElement(el);
+		}catch(NoInnerConsistency e){
+			e.printStackTrace();
+		}
 		if (!checkConsistency()) {
 			a3.removeElement(el);
 			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");

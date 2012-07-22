@@ -2,7 +2,9 @@ package test;
 
 import ow.Element;
 import ow.Refset;
+import ow.Set;
 import ow.exceptions.NoConsistency;
+import ow.exceptions.NoInnerConsistency;
 
 public class RefsetTest {
 
@@ -24,8 +26,18 @@ public class RefsetTest {
 			e.printStackTrace();
 		}
 
-		System.out.println(rs.getA0().getCenter().getDoors());
-		System.out.println(rs.getA0().getDistance(e3));
+//		System.out.println(rs.getA0().getCenter().getDoors());
+//		System.out.println(rs.getA0().getDistance(e3));
+		
+		Set set = new Set();
+		try{
+			set.addElement(e1);
+			set.addElement(e2);
+			set.addElement(e3);
+		}catch(NoInnerConsistency e){
+			e.printStackTrace();
+		}
+		
 	}
 
 }

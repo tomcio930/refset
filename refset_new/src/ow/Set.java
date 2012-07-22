@@ -3,6 +3,8 @@ package ow;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import ow.exceptions.NoInnerConsistency;
+
 public class Set {
 
 	private final ArrayList<Element> elements;
@@ -13,15 +15,13 @@ public class Set {
 		elements = new ArrayList<Element>();
 	}
 
-	public Set(ArrayList<Element> elements) {
-		this.center = new Element();
-		this.elements = elements;
-		computeCenter();
-	}
-
-	public void addElement(Element el) {
-		elements.add(el);
-		computeCenter();
+	public void addElement(Element el) throws NoInnerConsistency{
+		if(checkSetConsistency(el)){
+			elements.add(el);
+			computeCenter();
+		}else{
+			throw new NoInnerConsistency("Cannot add element: " + el + ". Set are not consistent.");
+		}
 	}
 
 	public void removeElement(Element el) {
@@ -38,6 +38,7 @@ public class Set {
 	}
 
 	public double getDistance(Element el) {
+		
 		double distance = 0.0;
 		distance += Math.pow(center.getDoors() - el.getDoors(), 2);
 		distance += Math.pow(center.getLuggage() - el.getLuggage(), 2);
@@ -50,6 +51,7 @@ public class Set {
 	}
 
 	private final void computeCenter() {
+		
 		Element centerTmp = new Element();
 		Iterator<Element> itr = elements.iterator();
 		while(itr.hasNext()){
@@ -71,6 +73,30 @@ public class Set {
 		centerTmp.setSafety(centerTmp.getSafety() / totalElements);
 
 		center = centerTmp;
+	}
+	
+	//sprawdza czy zbior jest wewnetrznie spojny, tz dwa elementy tego zbioru 
+	//nie moga byc porownywalne. W naszym przypadku nie mozna porownac dwoch samochodow
+	//jesli maja inne wartosci na co najmniej 2 wlasciwosciach
+	private final boolean checkSetConsistency(Element newEl){
+		
+		int count = 0;
+		Iterator<Element> itr = elements.iterator();
+		while(itr.hasNext()){
+			Element el = itr.next();
+			if(el.getDoors() == newEl.getDoors()) count++;
+			if(el.getLuggage() == newEl.getLuggage())count++;
+			if(el.getMaintenance() == newEl.getMaintenance())count++;
+			if(el.getPersons() == newEl.getPersons())count++;
+			if(el.getPrice() == newEl.getPrice())count++;
+			if(el.getSafety() == newEl.getSafety())count++;
+			
+			if(count >= 5){
+				return false;
+			}else count=0;
+		}
+		
+		return true;
 	}
 
 }
