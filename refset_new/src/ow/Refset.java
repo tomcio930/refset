@@ -29,7 +29,7 @@ public class Refset {
 	}
 
 	// sprawdza czy ka¿dy zbiór ma przynajmniej 1 element
-	public boolean hasElementSets() {
+	public boolean hasSetElements() {
 		return (a0.getSize() != 0 && a1.getSize() != 0 && a2.getSize() != 0 && a3.getSize() != 0);
 	}
 
