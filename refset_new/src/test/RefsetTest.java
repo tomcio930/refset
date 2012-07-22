@@ -19,9 +19,9 @@ public class RefsetTest {
 		Refset rs = new Refset();
 
 		try {
+			rs.addElementToA1(e3);
 			rs.addElementToA0(e1);
 			rs.addElementToA0(e2);
-			rs.addElementToA1(e3);
 		} catch (NoConsistency e) {
 			e.printStackTrace();
 		}
@@ -29,14 +29,15 @@ public class RefsetTest {
 //		System.out.println(rs.getA0().getCenter().getDoors());
 //		System.out.println(rs.getA0().getDistance(e3));
 		
-		Set set = new Set();
-		try{
-			set.addElement(e1);
-			set.addElement(e2);
-			set.addElement(e3);
-		}catch(NoInnerConsistency e){
-			e.printStackTrace();
-		}
+//		Set set = new Set();
+//		try{
+//			set.addElement(e1);
+//			set.addElement(e2);
+//			set.addElement(e3);
+//		}catch(NoInnerConsistency e){
+//			e.printStackTrace();
+//		}
+		
 		
 	}
 

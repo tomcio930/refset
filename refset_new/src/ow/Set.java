@@ -29,6 +29,10 @@ public class Set {
 		computeCenter();
 	}
 
+	public ArrayList<Element> getElements(){
+		return elements;
+	}
+	
 	public Element getCenter() {
 		return center;
 	}
