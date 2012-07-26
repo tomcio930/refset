@@ -25,6 +25,11 @@ public class ProblemConstrains {
 	//safety from 1 to 10
 	public final static double[][] SAFETY_BOUNDS = {{1, 2}, {2, 4}, {4, 6}, {6,  10}};
 	
+	public final static double[] WEIGHTS = {0.4, 0.1, 0.1, 0.4};
+	public final static double[] P = {1, 2, 3, 4};
+	public final static double[] Q = {1, 2, 3, 4};
+	public final static double[] V = {1, 2, 3, 4};
+	
 	public ProblemConstrains(){
 		
 	}
