@@ -8,6 +8,8 @@ public class Element {
 	private double persons;
 	private double luggage;
 	private double safety;
+	
+	private double[] distance = {0, 0, 0, 0};
 
 	public Element() {
 		super();
@@ -83,6 +85,14 @@ public class Element {
 
 	public void setSafety(double safety) {
 		this.safety = safety;
+	}
+	
+	public double[] getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double[] distance) {
+		this.distance = distance;
 	}
 
 }

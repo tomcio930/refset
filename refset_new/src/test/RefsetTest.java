@@ -1,5 +1,6 @@
 package test;
 
+import ow.DecisionMaker;
 import ow.Element;
 import ow.Refset;
 import ow.Set;
@@ -15,11 +16,9 @@ public class RefsetTest {
 	 */
 	public static void main(String[] args) {
 		
-		Generator generator = new Generator();
-		System.out.println(generator.generateElementint(0));
-		System.out.println(generator.generateElementint(1));
-		System.out.println(generator.generateElementint(2));
-		System.out.println(generator.generateElementint(3));
+		DecisionMaker dm = new DecisionMaker();
+		dm.start();
+
 		
 //		Element e1 = new Element(10.0, 10.0, 10.0, 10.0, 10.0, 10.0);
 //		Element e2 = new Element(15.0, 15.0, 15.0, 15.0, 15.0, 15.0);
