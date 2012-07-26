@@ -9,10 +9,11 @@ public class Set {
 
 	private final ArrayList<Element> elements;
 	private Element center;
-
+	
 	public Set() {
+		super();
 		this.center = new Element();
-		elements = new ArrayList<Element>();
+		this.elements = new ArrayList<Element>();
 	}
 
 	public void addElement(Element el) throws NoInnerConsistency{

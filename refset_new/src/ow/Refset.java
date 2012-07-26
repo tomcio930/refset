@@ -9,12 +9,6 @@ public class Refset {
 	
 	private Set[] a = new Set[4];
 
-	public Refset() {
-		for(int i=0; i<4; i++){
-			a[i] = new Set();
-		}
-	}
-
 	public Refset(Set a0, Set a1, Set a2, Set a3) {
 		super();
 		this.a[0] = a0;
@@ -34,56 +28,56 @@ public class Refset {
 		while(itr.hasNext()){
 			Element el = itr.next();
 			if(ProblemConstrains.PRICE_ORDER){
-				if( !(el.getPrice() > newEl.getPrice()) ){
+				if( !(el.getPrice() >= newEl.getPrice()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getPrice() < newEl.getPrice()) ){
+				if( !(el.getPrice() <= newEl.getPrice()) ){
 					return false;
 				}
 			}
 			if(ProblemConstrains.DOORS_ORDER){
-				if( !(el.getDoors() > newEl.getDoors()) ){
+				if( !(el.getDoors() >= newEl.getDoors()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getDoors() < newEl.getDoors()) ){
+				if( !(el.getDoors() <= newEl.getDoors()) ){
 					return false;
 				}
 			}
 			if(ProblemConstrains.LUGGAGE_ORDER){
-				if( !(el.getLuggage() > newEl.getLuggage()) ){
+				if( !(el.getLuggage() >= newEl.getLuggage()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getLuggage() < newEl.getLuggage()) ){
+				if( !(el.getLuggage() <= newEl.getLuggage()) ){
 					return false;
 				}
 			}
-			if(ProblemConstrains.MAINTANCE_ORDER){
-				if( !(el.getMaintenance() > newEl.getMaintenance()) ){
+			if(ProblemConstrains.MAINTAIN_ORDER){
+				if( !(el.getMaintenance() >= newEl.getMaintenance()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getMaintenance() < newEl.getMaintenance()) ){
+				if( !(el.getMaintenance() <= newEl.getMaintenance()) ){
 					return false;
 				}
 			}
 			if(ProblemConstrains.PERSONS_ORDER){
-				if( !(el.getPersons() > newEl.getPersons()) ){
+				if( !(el.getPersons() >= newEl.getPersons()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getPersons() < newEl.getPersons()) ){
+				if( !(el.getPersons() <= newEl.getPersons()) ){
 					return false;
 				}
 			}
 			if(ProblemConstrains.SAFETY_ORDER){
-				if( !(el.getSafety() > newEl.getSafety()) ){
+				if( !(el.getSafety() >= newEl.getSafety()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getSafety() < newEl.getSafety()) ){
+				if( !(el.getSafety() <= newEl.getSafety()) ){
 					return false;
 				}
 			}
