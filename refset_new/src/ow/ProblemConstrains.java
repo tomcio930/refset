@@ -2,6 +2,7 @@ package ow;
 
 public class ProblemConstrains {
 	
+
 	public final static boolean PRICE_ORDER = false;
 	public final static boolean MAINTAIN_ORDER = false;
 	public final static boolean DOORS_ORDER = false;
@@ -31,6 +32,7 @@ public class ProblemConstrains {
 	public final static double[] V = {10, 20, 20, 25};
 	
 	public final static double THRESHOLD = 0.15;
+
 	
 	public ProblemConstrains(){
 		

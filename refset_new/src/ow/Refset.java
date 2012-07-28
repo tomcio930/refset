@@ -44,11 +44,11 @@ public class Refset {
 				}
 			}
 			if(ProblemConstrains.DOORS_ORDER){
-				if( !(el.getDoors() > newEl.getDoors()) ){
+				if( !(el.getDoors() >= newEl.getDoors()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getDoors() < newEl.getDoors()) ){
+				if( !(el.getDoors() <= newEl.getDoors()) ){
 					return false;
 				}
 			}
@@ -71,11 +71,11 @@ public class Refset {
 				}
 			}
 			if(ProblemConstrains.PERSONS_ORDER){
-				if( !(el.getPersons() > newEl.getPersons()) ){
+				if( !(el.getPersons() >= newEl.getPersons()) ){
 					return false;
 				}
 			}else{
-				if( !(el.getPersons() < newEl.getPersons()) ){
+				if( !(el.getPersons() <= newEl.getPersons()) ){
 					return false;
 				}
 			}

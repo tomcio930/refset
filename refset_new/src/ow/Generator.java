@@ -12,6 +12,7 @@ public class Generator {
 	}
 	
 	private static double randomDouble(double[] bounds){
+
 		double start;
 		double end;
 		Random random = new Random();
@@ -27,6 +28,7 @@ public class Generator {
 		// compute a fraction of the range, 0 <= frac < range
 		long fraction = (long)(range * random.nextDouble());
 		int randomNumber =  (int)(fraction + start);    
+
 		return (double)randomNumber;
 	}
 	
