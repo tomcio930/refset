@@ -9,16 +9,16 @@ public class Set {
 
 	private final ArrayList<Element> elements;
 	private Element center;
-
+	
 	public Set() {
+		super();
 		this.center = new Element();
-		elements = new ArrayList<Element>();
+		this.elements = new ArrayList<Element>();
 	}
 
 	public void addElement(Element el) throws NoInnerConsistency{
 		if(checkSetConsistency(el)){
 			elements.add(el);
-			computeCenter();
 		}else{
 			throw new NoInnerConsistency("Cannot add element: " + el + ". Set are not consistent.");
 		}
@@ -54,7 +54,7 @@ public class Set {
 		return Math.sqrt(distance);
 	}
 
-	private final void computeCenter() {
+	public final void computeCenter() {
 		
 		Element centerTmp = new Element();
 		Iterator<Element> itr = elements.iterator();
@@ -103,4 +103,8 @@ public class Set {
 		return true;
 	}
 
+	public Element getElement(int index){
+		return elements.get(index);
+	}
+	
 }

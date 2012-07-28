@@ -9,12 +9,13 @@ public class Refset {
 	
 	private Set[] a = new Set[4];
 
-	public Refset() {
-		for(int i=0; i<4; i++){
-			a[i] = new Set();
-		}
+	public Refset(){
+		this.a[0] = new Set();
+		this.a[1] = new Set();
+		this.a[2] = new Set();
+		this.a[3] = new Set();
 	}
-
+	
 	public Refset(Set a0, Set a1, Set a2, Set a3) {
 		super();
 		this.a[0] = a0;
@@ -60,7 +61,7 @@ public class Refset {
 					return false;
 				}
 			}
-			if(ProblemConstrains.MAINTANCE_ORDER){
+			if(ProblemConstrains.MAINTAIN_ORDER){
 				if( !(el.getMaintenance() > newEl.getMaintenance()) ){
 					return false;
 				}
@@ -91,54 +92,40 @@ public class Refset {
 		return true;
 	}
 	
-	public void addElementToA0(Element el) throws NoConsistency {
+	public void addElementToA(int setNumber, Element el) throws NoConsistency {
 		try{
-			a[0].addElement(el);
+			a[setNumber].addElement(el);
 		}catch(NoInnerConsistency e){
-			e.printStackTrace();
+			
 		}
-		if (!checkConsistency(0, el)) {
-			a[0].removeElement(el);
-			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
-		}
-	}
-
-	public void addElementToA1(Element el) throws NoConsistency {
-		try{
-			a[1].addElement(el);
-		}catch(NoInnerConsistency e){
-			e.printStackTrace();
-		}
-		if (!checkConsistency(1, el)) {
-			a[1].removeElement(el);
-			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
+		if(setNumber != 3){
+			if (!checkConsistency(setNumber, el)) {
+				a[setNumber].removeElement(el);
+				throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
+			}
 		}
 	}
-
-	public void addElementToA2(Element el) throws NoConsistency {
-		try{
-			a[2].addElement(el);
-		}catch(NoInnerConsistency e){
-			e.printStackTrace();
-		}
-		if (!checkConsistency(2, el)) {
-			a[2].removeElement(el);
-			throw new NoConsistency("Cannot add element: " + el + ". Sets are not consistent.");
-		}
+	
+	public Set getSet(int index){
+		return a[index];
 	}
 
-	public void addElementToA3(Element el) throws NoConsistency {
-		try{
-			a[3].addElement(el);
-		}catch(NoInnerConsistency e){
-			e.printStackTrace();
+	public void computeElementsDistance(){
+		for(int i=0; i<4; i++){
+			Set set = a[i];
+			Iterator<Element> itr = set.getElements().iterator();
+			while(itr.hasNext()){
+				Element el = itr.next();
+				double[] distance = {a[0].getDistance(el), a[1].getDistance(el), a[2].getDistance(el), a[3].getDistance(el)};
+				el.setDistance(distance);
+			}
 		}
 	}
-
-	public Set getA0() {
-		return a[0];
-	}
-
+	
+//	public Set getA0() {
+//		return a[0];
+//	}
+//
 //	public void setA0(Set a0) throws NoConsistency {
 //		Set tmp = this.a[0];
 //		this.a[0] = a0;
