@@ -104,7 +104,7 @@ public class ElectreIII {
 	
 	private ArrayList<Double> credibilityMatrix()
 	{
-		ArrayList<Double> tmp = new ArrayList<>();
+		ArrayList<Double> tmp = new ArrayList<Double>();
 		for(int i = 0; i < elements.size(); i++) {
 			for(int j=0; j < elements.size(); j++) {
 				Element e1 = elements.get(i);
