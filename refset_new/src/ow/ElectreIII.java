@@ -2,6 +2,7 @@ package ow;
 
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,6 +24,8 @@ public class ElectreIII {
 	//veto
 	private double[] v;
 	private ArrayList<Element> elements = new ArrayList<Element>();
+	public ArrayList<Element> descendingElements = new ArrayList<Element>();
+	//private ArrayList<Element> elements = new ArrayList<Element>();
 	
 	public ElectreIII(Refset refset, double[] weights, double[] p, double[] q, double[] v) {
 		super();
@@ -102,21 +105,21 @@ public class ElectreIII {
 
 	}
 	
-	private ArrayList<Double> credibilityMatrix()
+	private ArrayList<Double> credibilityMatrix(ArrayList<Element> tmpElements)
 	{
 		ArrayList<Double> tmp = new ArrayList<>();
-		for(int i = 0; i < elements.size(); i++) {
-			for(int j=0; j < elements.size(); j++) {
-				Element e1 = elements.get(i);
-				Element e2 = elements.get(j);
+		for(int i = 0; i < tmpElements.size(); i++) {
+			for(int j=0; j < tmpElements.size(); j++) {
+				Element e1 = tmpElements.get(i);
+				Element e2 = tmpElements.get(j);
 				tmp.add(credibility(e1, e2));
 			}
 		}
 		return tmp;
 	}
 	
-	private ArrayList<Integer> tMatrix() {
-		ArrayList<Double> credibilityMatrix = credibilityMatrix();
+	private ArrayList<Integer> tMatrix(ArrayList<Element> tmpElements) {
+		ArrayList<Double> credibilityMatrix = credibilityMatrix(tmpElements);
 		double lambda = Collections.max(credibilityMatrix);
 		ArrayList<Integer> tMatrix = new ArrayList<Integer>();
 		Iterator<Double> itr = credibilityMatrix.iterator();
@@ -129,21 +132,48 @@ public class ElectreIII {
 		return tMatrix;
 	}
 	
-	public int[] qualification() {
-		int size = elements.size();
-		int[] result = new int[size];
-		ArrayList<Integer> tMatrix = tMatrix(); 
+	private static int maxValueIndex(int[] values) {
+        int maxValue = values[0];
+        int maxIndex = 0;
+        for (int i = 0; i < values.length; i++) {
+                if (values[i] > maxValue) {
+                        maxValue = values[i];
+                        maxIndex = i;
+                }
+        }
+        return maxIndex;
+}
+	
+	public int[] qualification(ArrayList<Element> tmpElements) {
+		int size = tmpElements.size();
+		int[] results = new int[size];
+		ArrayList<Integer> tMatrix = tMatrix(tmpElements); 
 		for(int i=0; i<size; i++) {
 			List<Integer> subList = tMatrix.subList(i*size, (i+1)*size);
 			for(int j=0; j<subList.size(); j++){
 				if(subList.get(j) == 1){
 					if(i==j) continue;
-					result[i] += 1;
-					result[j] -= 1;
+					results[i] += 1;
+					results[j] -= 1;
 				}
 			}
 		}
-		return result;
+		return results;
+	}
+	
+	void findNextDescendingElement(ArrayList<Element> tmpElements) {
+		int[] results = qualification(tmpElements);
+		int maxIndex = maxValueIndex(results);
+		descendingElements.add(this.elements.get(maxIndex));
+		this.elements.remove(maxIndex);
+	}
+
+	
+	public void descendingDestilation(){
+		ArrayList<Element> tmpElements = this.elements;
+		while(tmpElements.size()>1)
+			findNextDescendingElement(tmpElements);
+		descendingElements.add(this.elements.get(0));
 	}
 	
 }

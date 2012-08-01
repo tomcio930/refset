@@ -21,7 +21,8 @@ public class DecisionMaker {
 		Element e2 = refset.getSet(0).getElement(1);
 		System.out.println(e1+" dist: "+e1.getDistance()[0]+" "+e1.getDistance()[1]+" "+e1.getDistance()[2]+" "+e1.getDistance()[3]);
 		System.out.println(e2+" dist: "+e2.getDistance()[0]+" "+e2.getDistance()[1]+" "+e2.getDistance()[2]+" "+e2.getDistance()[3]);
-		System.out.println(e3.qualification());
+		e3.descendingDestilation();
+		System.out.println(e3.descendingElements);
 	}
 	
 }
