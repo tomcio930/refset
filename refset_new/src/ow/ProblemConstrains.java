@@ -10,7 +10,7 @@ public class ProblemConstrains {
 	public final static boolean LUGGAGE_ORDER = false;
 	public final static boolean SAFETY_ORDER = false;
 	
-	public final static int[] SETS_SIZE = {3, 3, 3, 3};
+	public final static int[] SETS_SIZE = {100, 100, 100, 100};
 	
 	//bounds for sets, first index tells which set {A0, A1, A2, A3}
 	//price from i*(10 to 1000) where i = 100

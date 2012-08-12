@@ -10,7 +10,8 @@ public class Element {
 	private double safety;
 	
 	private double[] distance = {0, 0, 0, 0};
-
+	//rang to construct final preorder
+	private int rang;
 	public Element() {
 		super();
 		this.price = 0.0;
@@ -26,7 +27,7 @@ public class Element {
 		// TODO Auto-generated method stub
 		return "(price: " + String.valueOf(price) + " maintenance: " + String.valueOf(maintain) + " doors: "
 				+ String.valueOf(doors) + " persons: " + String.valueOf(persons) + " luggage: "
-				+ String.valueOf(luggage) + " safety: " + String.valueOf(safety) + ")";
+				+ String.valueOf(luggage) + " safety: " + String.valueOf(safety) + ")"+" rang: "+String.valueOf(rang);
 	}
 
 	public Element(double price, double maintenance, double doors, double persons, double luggage, double safety) {
@@ -37,6 +38,14 @@ public class Element {
 		this.persons = persons;
 		this.luggage = luggage;
 		this.safety = safety;
+	}
+	
+	public int getRang() {
+		return rang;
+	}
+
+	public void setRang(int rang) {
+		this.rang = rang;
 	}
 
 	public double getPrice() {

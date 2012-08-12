@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 import com.sun.org.apache.regexp.internal.RESyntaxException;
 
-import sun.text.normalizer.UBiDiProps;
 
 
 public class ElectreIII {
@@ -25,7 +25,7 @@ public class ElectreIII {
 	private double[] v;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	public ArrayList<Element> descendingElements = new ArrayList<Element>();
-	//private ArrayList<Element> elements = new ArrayList<Element>();
+	public ArrayList<Element> ascendingElements = new ArrayList<Element>();
 	
 	public ElectreIII(Refset refset, double[] weights, double[] p, double[] q, double[] v) {
 		super();
@@ -107,7 +107,7 @@ public class ElectreIII {
 	
 	private ArrayList<Double> credibilityMatrix(ArrayList<Element> tmpElements)
 	{
-		ArrayList<Double> tmp = new ArrayList<>();
+		ArrayList<Double> tmp = new ArrayList<Double>();
 		for(int i = 0; i < tmpElements.size(); i++) {
 			for(int j=0; j < tmpElements.size(); j++) {
 				Element e1 = tmpElements.get(i);
@@ -133,18 +133,31 @@ public class ElectreIII {
 	}
 	
 	private static int maxValueIndex(int[] values) {
-        int maxValue = values[0];
-        int maxIndex = 0;
-        for (int i = 0; i < values.length; i++) {
-                if (values[i] > maxValue) {
-                        maxValue = values[i];
-                        maxIndex = i;
-                }
-        }
-        return maxIndex;
-}
+        	int maxValue = values[0];
+        	int maxIndex = 0;
+        	for (int i = 0; i < values.length; i++) {
+                	if (values[i] > maxValue) {
+                        	maxValue = values[i];
+                        	maxIndex = i;
+                	}
+        	}
+        	return maxIndex;
+	}
+
 	
-	public int[] qualification(ArrayList<Element> tmpElements) {
+	private static int minValueIndex(int[] values) {
+        	int minValue = values[0];
+        	int minIndex = 0;
+        	for (int i = 0; i < values.length; i++) {
+                	if (values[i] < minValue) {
+                        	minValue = values[i];
+                        	minIndex = i;
+                	}
+        	}
+        	return minIndex;
+	}
+	
+	private int[] qualification(ArrayList<Element> tmpElements) {
 		int size = tmpElements.size();
 		int[] results = new int[size];
 		ArrayList<Integer> tMatrix = tMatrix(tmpElements); 
@@ -161,19 +174,63 @@ public class ElectreIII {
 		return results;
 	}
 	
-	void findNextDescendingElement(ArrayList<Element> tmpElements) {
+	private Element findNextDescendingElement(ArrayList<Element> tmpElements) {
 		int[] results = qualification(tmpElements);
 		int maxIndex = maxValueIndex(results);
-		descendingElements.add(this.elements.get(maxIndex));
-		this.elements.remove(maxIndex);
+		return tmpElements.get(maxIndex);
+	}
+
+	private Element findNextAscendingElement(ArrayList<Element> tmpElements) {
+		int[] results = qualification(tmpElements);
+		int minIndex = minValueIndex(results);
+		return tmpElements.get(minIndex); 				
 	}
 
 	
-	public void descendingDestilation(){
-		ArrayList<Element> tmpElements = this.elements;
-		while(tmpElements.size()>1)
-			findNextDescendingElement(tmpElements);
-		descendingElements.add(this.elements.get(0));
+	private void descendingDestilation(){
+		ArrayList<Element> tmpElements = (ArrayList<Element>) elements.clone();
+		while(tmpElements.size()>1) {
+			Element el = findNextDescendingElement(tmpElements);
+			descendingElements.add(el);
+			tmpElements.remove(el);
+		}
+		//add last the worst element
+		descendingElements.add(tmpElements.get(0));				
 	}
 	
+	private void ascendingDestilation(){
+		ArrayList<Element> tmpElements = (ArrayList<Element>) elements.clone();
+		while(tmpElements.size()>1) {
+			Element el = findNextAscendingElement(tmpElements);
+			ascendingElements.add(el);
+			tmpElements.remove(el);
+		}
+		//add last the best element
+		ascendingElements.add(tmpElements.get(0));		
+		//revert array to order elements from the best to the worst	
+		Collections.reverse(ascendingElements);
+	}
+
+	public ArrayList<Element> computeFinalPreOrder() {
+		ArrayList<Element> finalPreOrder = new ArrayList<Element>();
+		descendingDestilation();
+		ascendingDestilation();
+		//for each element contains sum of two indexes from destilation tables (descendingElements.getIndexOf(el)+ascendingElements.getIndexOf(el))
+		int size = elements.size();
+		int[] results = new int[size];		
+		for(int i=0; i<size; i++) {
+			Element el = elements.get(i);
+			el.setRang(descendingElements.indexOf(el)+ascendingElements.indexOf(el)); 
+		}
+		
+		Collections.sort(elements, new ElementRangComparator());
+		return elements;
+				
+	}
+	
+	class ElementRangComparator implements Comparator<Element> {
+	    public int compare(Element e1, Element e2) {
+	        return e1.getRang() - e2.getRang();
+	    }
+	}
 }
